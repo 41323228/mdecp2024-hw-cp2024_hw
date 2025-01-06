@@ -2,7 +2,7 @@
         <head>
         <title>cp_hw</title>
         <meta charset="utf-8">
-<meta property="head" content="H1">
+<meta property="head" content="H3">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
@@ -141,10 +141,54 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">About << <a href='About.html'>Previous</a> <a href='HW 1.html'>Next</a> >> HW 1<br /><h1>Attendance</h1>
-<p>出席 (10%) - 自行舉證評分</p>
-<p>自行利用 Github commits 提交記錄評分.</p>
-<br />About << <a href='About.html'>Previous</a> <a href='HW 1.html'>Next</a> >> HW 1</div>
+    <div id="tipue_search_content">w16_exam1 << <a href='w16_exam1.html'>Previous</a> <a href='w14_ex.html'>Next</a> >> w14_ex<br /><h1>w15</h1>
+<p>第一題：1~100</p>
+<p>　　我是使用while迴圈下去寫，邏輯大概是如果i小於100就持續執行1+2=3 3+4=7一直持續到i=100。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">sum_result = 0 #建立變數sum_result
+i = 1 #指定i等於1
+while i &lt;= 100:     #使用while迴圈把i加到等於100
+    sum_result += i   
+    i += 1
+print(sum_result)</pre>
+<p>第二題：指定開頭計算</p>
+<p>　　我一樣使用while迴圈下去寫，這次可以通過程式調整起始值所以加入了add_to函式庫進行調用。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">#運算程式
+def addto(start, end):   #定義函數addto
+    sum_result = 0       #設定數值sum_result=0
+    i = start            #設定i=start
+    while i &lt;= end:      #設結束之值為end
+        sum_result += i  
+        i += 1
+    return sum_result    #終止函數運行並返回數值至result
+     
+#調用程式
+result = addto(1, 100)   #設定起始值
+print(result)            #列印result</pre>
+<p>第三題：只加偶數</p>
+<p>　　這次可以通過程式調整起始值並讓程式判斷使程式只加偶數數字，邏輯是除以2的餘=0再加入如果不等於0就判定為單數不加入。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">#運算程式
+def add_only_even(start, end): #定義函數add_only_eve
+    result = 0                 #在函數內部定義一個區域變數為result
+    num = start                #初始化一個變數為num　並賦值為start
+    while num &lt;= end:          #設定一個while迴圈 循環條件為num &lt;= end只要當前的num沒有超過end就會持續運行
+        if num % 2 == 0:       #這個if判斷式是判斷是否為偶數 餘數是否=0
+            result += num      #此語句為result=result+num
+        num += 1               #每次循環時都將num+1
+    return result              #迴圈結束後使用return返回至函數
+print(add_only_even(1, 100))   #列印函數結果</pre>
+<p>第四題：除了8都加入</p>
+<p>　　程式邏輯為將透過str指令將整束轉為字符串，再進行判斷裡面是否含有若無則加入倒數列其中</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">def add_avoid_8(start, end):     #定義函數add_only_eve_8
+    result = 0                   #定義函數add_only_eve
+    num = start                  #初始化一個變數為num　並賦值為start
+    while num &lt;= end:            #設定一個while迴圈 循環條件為num &lt;= end只要當前的num沒有超過end就會持續運行
+        num_str = str(num)       #將當前的整數num轉換成字符串的形式透過str語句
+        if '8' not in num_str:   #這是一個if語句他是判斷num_str字符串中是否含8
+            result += num        #此語句為result=result+num
+        num += 1                 #每次循環時都將num+1
+    return result                #迴圈結束後使用return返回至函數     
+print(add_avoid_8(1, 100))       #列印函數結果</pre>
+<p></p><br />w16_exam1 << <a href='w16_exam1.html'>Previous</a> <a href='w14_ex.html'>Next</a> >> w14_ex</div>
         
     <!-- footer -->
       <div class="container">

@@ -2,7 +2,7 @@
         <head>
         <title>cp_hw</title>
         <meta charset="utf-8">
-<meta property="head" content="H1">
+<meta property="head" content="H2">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
@@ -141,10 +141,136 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">About << <a href='About.html'>Previous</a> <a href='HW 1.html'>Next</a> >> HW 1<br /><h1>Attendance</h1>
-<p>出席 (10%) - 自行舉證評分</p>
-<p>自行利用 Github commits 提交記錄評分.</p>
-<br />About << <a href='About.html'>Previous</a> <a href='HW 1.html'>Next</a> >> HW 1</div>
+    <div id="tipue_search_content">w14_ex << <a href='w14_ex.html'>Previous</a> <a href='HW 2.html'>Next</a> >> HW 2<br /><h1>w13</h1>
+<p>每六人為一組進行協同程式練習</p>
+<p>透過 Jupyterlab 協同網頁, 輪流指定各組編寫 Topic 1 相關的程式練習, 以及網頁內容 (localhost 與 Codespaces 環境)編輯.</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">from browser import html, document as doc, window
+ 
+# Create canvas element
+canvas = html.CANVAS(width=500, height=500)  # Increase canvas size to ensure circles are fully visible
+brython_div = doc["brython_div1"]
+brython_div &lt;= canvas
+ 
+# Get the drawing context of the canvas
+ctx = canvas.getContext("2d")
+ 
+# Draw the first empty square at (0, 0)
+width = 10
+height = 10
+gs = 20  # Grid size (for spacing)
+ 
+ctx.lineWidth = 2
+ctx.strokeStyle = 'red'  # Color for the first square
+ctx.beginPath()
+ctx.rect(50, 50, width * gs, height * gs)  # Draw a hollow square with offset (50, 50)
+ctx.stroke()
+ 
+# Draw the second empty square at (100, 100)
+offset_x = 150  # Change the x-coordinate to give more space
+offset_y = 150  # Change the y-coordinate to give more space
+width2 = 10
+height2 = 10
+ 
+ctx.lineWidth = 2
+ctx.strokeStyle = 'red'  # Color for the second square
+ctx.beginPath()
+ctx.rect(offset_x, offset_y, width2 * gs, height2 * gs)  # Draw another hollow square
+ctx.stroke()
+ 
+# Function to draw a circle around a square
+def draw_outer_circle(x, y, width, height):
+    # Calculate the radius of the outer circle (half of the diagonal of the square)
+    radius = window.Math.sqrt(width ** 2 + height ** 2) / 2
+    # Calculate the center of the square
+    center_x = x + width * gs / 2
+    center_y = y + height * gs / 2
+    # Draw the outer circle
+    ctx.beginPath()
+    ctx.arc(center_x, center_y, radius * gs, 0, 2 * window.Math.PI)
+    ctx.strokeStyle = 'black'  # Color for the outer circle
+    ctx.lineWidth = 2
+    ctx.stroke()
+ 
+# Draw outer circles around both squares
+draw_outer_circle(50, 50, width, height)  # For the first square
+draw_outer_circle(offset_x, offset_y, width2, height2)  # For the second square
+ 
+# Create the context menu
+context_menu = html.DIV(style={"position": "absolute", "display": "none", "background-color": "#fff", "border": "1px solid #ccc", "padding": "5px"})
+context_menu &lt;= html.BUTTON("Option 1: Clear Canvas")
+context_menu &lt;= html.BUTTON("Option 2: Draw Circle")
+brython_div &lt;= context_menu
+ 
+# Function to show context menu
+def show_context_menu(event):
+    event.preventDefault()  # Prevent the default right-click menu
+    context_menu.style.display = "block"  # Show custom context menu
+    context_menu.style.left = f"{event.pageX}px"  # Set the position of the menu
+    context_menu.style.top = f"{event.pageY}px"
+ 
+# Hide the context menu when clicking elsewhere
+def hide_context_menu(event):
+    context_menu.style.display = "none"
+ 
+# Attach right-click (contextmenu) event to the canvas
+canvas.bind("contextmenu", show_context_menu)
+ 
+# Attach click event to document to hide the menu when clicking elsewhere
+document.bind("click", hide_context_menu)
+ 
+# Function for the menu options
+def clear_canvas(event):
+    ctx.clearRect(0, 0, canvas.width, canvas.height)  # Clear the canvas
+    context_menu.style.display = "none"  # Hide the context menu after action
+ 
+def draw_circle(event):
+    ctx.beginPath()
+    ctx.arc(200, 200, 50, 0, 2 * window.Math.PI)  # Draw a circle at the center
+    ctx.strokeStyle = 'green'
+    ctx.stroke()
+    context_menu.style.display = "none"  # Hide the context menu after action
+ 
+# Attach actions to context menu buttons
+context_menu.children[0].bind("click", clear_canvas)  # First button: Clear canvas
+context_menu.children[1].bind("click", draw_circle)  # Second button: Draw a circle</pre>
+<p><br/><br/>hw_13</p>
+<p>1.</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
+from browser import document as doc
+
+# 利用 html 建立 canvas 超文件物件
+canvas = html.CANVAS(width = 400,height = 400)
+brython_div = doc["brython_div1"]
+brython_div &lt;= canvas
+
+# 每一格的 pixel 數
+gs = 200
+
+# gs*tc = canvas width and height
+
+ctx = canvas.getContext("2d")
+
+width=1
+height=1
+
+for i in range(width): 
+    for j in range(height):
+     #dRect(i*gs, j*gs, gs, gs, 1, "lightgrey")
+     ctx.lineWidth=1
+     ctx.strokeStyle='red'
+     ctx.beginPath();
+     ctx.rect(i*gs,j*gs,gs,gs)
+     ctx.stroke();
+     
+for i in range(width): 
+    for j in range(height):
+     #dRect(i*gs, j*gs, gs, gs, 1, "lightgrey")
+     ctx.lineWidth=1
+     ctx.strokeStyle='red'
+     ctx.beginPath();
+     ctx.rect(i*gs+50,j*gs+50,gs,gs)
+     ctx.stroke();</pre>
+<p></p><br />w14_ex << <a href='w14_ex.html'>Previous</a> <a href='HW 2.html'>Next</a> >> HW 2</div>
         
     <!-- footer -->
       <div class="container">

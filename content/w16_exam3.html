@@ -2,7 +2,7 @@
         <head>
         <title>cp_hw</title>
         <meta charset="utf-8">
-<meta property="head" content="H1">
+<meta property="head" content="H3">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
@@ -141,10 +141,164 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">About << <a href='About.html'>Previous</a> <a href='HW 1.html'>Next</a> >> HW 1<br /><h1>Attendance</h1>
-<p>出席 (10%) - 自行舉證評分</p>
-<p>自行利用 Github commits 提交記錄評分.</p>
-<br />About << <a href='About.html'>Previous</a> <a href='HW 1.html'>Next</a> >> HW 1</div>
+    <div id="tipue_search_content">W16_exam2 << <a href='W16_exam2.html'>Previous</a> <a href='w16_exam1.html'>Next</a> >> w16_exam1<br /><h1>w16_exam3</h1>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
+from browser import document as doc
+import math
+ 
+ 
+def draw_maze(angle_degrees):
+    # 創建畫布
+    canvas = html.CANVAS(width=1200, height=1200)
+    brython_div = doc["brython_div1"]
+    brython_div &lt;= canvas
+ 
+    # 取得繪圖上下文
+    ctx = canvas.getContext("2d")
+ 
+    # 設置參數
+    pixel_scale = 100
+    offset_x = 32 * 2
+    offset_y = 28 * 2
+    # 向右移動的偏移量
+    move_right_offset = 200
+    angle_radians = math.radians(angle_degrees)
+ 
+    # 定義迷宮線條
+    lines = [
+        ((0, 0), (2, 0)),
+        ((3, 0), (5, 0)),
+        ((5, 0), (5, 5)),
+        ((3, 5), (5, 5)),
+        ((4, 5), (4, 3)),
+        ((1, 3), (4, 3)),
+        ((3, 2), (3, 3)),
+        ((1, 1), (4, 1)),
+        ((4, 1), (4, 2)),
+        ((2, 1), (2, 2)),
+        ((2, 4), (3, 4)),
+        ((2, 4), (2, 5)),
+        ((1, 3), (1, 4)),
+        ((0, 2), (2, 2)),
+        ((0, 5), (2, 5)),
+        ((0, 0), (0, 5)),
+    ]
+ 
+    # 旋轉並繪製迷宮線條
+    ctx.strokeStyle = "blue"
+    ctx.lineWidth = 2
+    for line in lines:
+        start = line[0]
+        end = line[1]
+ 
+        # 旋轉起點座標
+        start_x_rotated = start[0] * pixel_scale * math.cos(angle_radians) - start[1] * pixel_scale * math.sin(
+            angle_radians)
+        start_y_rotated = start[0] * pixel_scale * math.sin(angle_radians) + start[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        # 旋轉終點座標
+        end_x_rotated = end[0] * pixel_scale * math.cos(angle_radians) - end[1] * pixel_scale * math.sin(
+            angle_radians)
+        end_y_rotated = end[0] * pixel_scale * math.sin(angle_radians) + end[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        ctx.beginPath()
+        ctx.moveTo(
+            offset_x + move_right_offset + start_x_rotated,
+            offset_y + start_y_rotated
+        )
+        ctx.lineTo(
+            offset_x + move_right_offset + end_x_rotated,
+            offset_y + end_y_rotated
+        )
+        ctx.stroke()
+ 
+    return ctx, offset_x + move_right_offset, offset_y, pixel_scale
+ 
+ 
+def find_path():
+    
+    path = [
+        ((2.5, 0), (2.5, 0.5)),
+        ((2.5, 0.5), (4.5, 0.5)),
+        ((4.5, 0.5), (4.5, 2.5)),
+        ((4.5, 2.5), (3.5, 2.5)),
+        ((3.5, 2.5), (3.5, 1.5)),
+        ((3.5, 1.5), (2.5, 1.5)),
+        ((2.5, 1.5), (2.5, 2.5)),
+        ((2.5, 2.5), (0.5, 2.5)),
+        ((0.5, 2.5), (0.5, 4.5)),
+        ((0.5, 4.5), (1.5, 4.5)),
+        ((1.5, 4.5), (1.5, 3.5)),
+        ((1.5, 3.5), (3.5, 3.5)),
+        ((3.5, 3.5), (3.5, 4.5)),
+        ((3.5, 4.5), (2.5, 4.5)),
+        ((2.5, 4.5), (2.5, 5))
+    ]
+    return path
+ 
+ 
+def draw_path(ctx, offset_x, offset_y, angle_degrees, path, pixel_scale):
+    angle_radians = math.radians(angle_degrees)
+    ctx.strokeStyle = "red"
+    ctx.lineWidth = 2
+    for line in path:
+        start = line[0]
+        end = line[1]
+ 
+        # 旋轉起點座標
+        start_x_rotated = start[0] * pixel_scale * math.cos(angle_radians) - start[1] * pixel_scale * math.sin(
+            angle_radians)
+        start_y_rotated = start[0] * pixel_scale * math.sin(angle_radians) + start[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        # 旋轉終點座標
+        end_x_rotated = end[0] * pixel_scale * math.cos(angle_radians) - end[1] * pixel_scale * math.sin(
+            angle_radians)
+        end_y_rotated = end[0] * pixel_scale * math.sin(angle_radians) + end[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        ctx.beginPath()
+        ctx.moveTo(
+            offset_x + start_x_rotated,
+            offset_y + start_y_rotated
+        )
+        ctx.lineTo(
+            offset_x + end_x_rotated,
+            offset_y + end_y_rotated
+        )
+        ctx.stroke()
+ 
+ 
+def label_coordinate(ctx, offset_x, offset_y, text_angle_degrees):
+    text_angle_radians = math.radians(text_angle_degrees)
+    ctx.font = "18px Arial"
+    ctx.fillStyle = "red"
+    # 原始文字位置
+    original_x = offset_x + 10
+    original_y = offset_y - 15
+    # 旋轉後的文字位置
+    rotated_x = original_x * math.cos(text_angle_radians) - original_y * math.sin(text_angle_radians)
+    rotated_y = original_x * math.sin(text_angle_radians) + original_y * math.cos(text_angle_radians)
+    ctx.save()
+    ctx.translate(offset_x, offset_y)
+    ctx.rotate(text_angle_radians)
+    ctx.fillText("(32, 28)", 10, - 15)
+    ctx.restore()
+ 
+ 
+if __name__ == "__main__":
+    # 調整迷宮角度，這裡設定為30度，可依需求修改
+    maze_angle = 0
+    # 文字角度
+    text_angle = 0
+    ctx, offset_x, offset_y, pixel_scale = draw_maze(maze_angle)
+    path = find_path()
+    draw_path(ctx, offset_x, offset_y, maze_angle, path, pixel_scale)
+    label_coordinate(ctx, offset_x, offset_y, text_angle)
+</pre>
+<p><img alt="" height="689" src="./../images/螢幕擷取畫面 2025-01-07 021658.png" width="663"/></p><br />W16_exam2 << <a href='W16_exam2.html'>Previous</a> <a href='w16_exam1.html'>Next</a> >> w16_exam1</div>
         
     <!-- footer -->
       <div class="container">

@@ -9,11 +9,13 @@
 <p>Teams 線上教學:</p>
 <p style="padding-left: 30px;">以 "學號@nfu.edu.tw" 登入 <a href="https://login.microsoftonline.com/">https://login.microsoftonline.com/</a> Office 365</p>
 <p style="padding-left: 30px;">Teams 團隊代碼: <span class="fui-Text ___vec8h90 fk6fouc f1pbo8a8 f1i3iumi figsok6 fpgzoln f1w7gpdv f6juhto f1mtd64y f1y7q3j9 f2jf649 foxqkq2" data-tid="join-team-code">ldodwua</span></p>
-<p>個人倉儲:</p>
-<p>個人網站:</p>
+<p>個人倉儲: <a href="https://mde.tw/41323228">https://mde.tw/41323228</a></p>
+<p>個人網站: <a href="https://github.com/mdecp2024/hw-41323228">https://github.com/mdecp2024/hw-41323228</a></p>
 <p>其他資訊:</p>
 <p style="padding-left: 30px;"><a href="/downloads/cd2023_pj3ag4_zmq_football_4.7.7z">cd2023_pj3ag4_zmq_football_4.7.7z</a></p>
-<p style="padding-left: 30px;"><a href="https://localhost:9446/downloads/cd2024_2b_g6_steel_ball_platform_nxopen_copsim.7z">cd2024_2b_g6_steel_ball_platform_nxopen_copsim.7z</a></p><h1>Attendance</h1>
+<p style="padding-left: 30px;"><a href="https://localhost:9446/downloads/cd2024_2b_g6_steel_ball_platform_nxopen_copsim.7z">cd2024_2b_g6_steel_ball_platform_nxopen_copsim.7z</a></p>
+<p>https://mde.tw/cp2024_hw</p>
+<h1>Attendance</h1>
 <p>出席 (10%) - 自行舉證評分</p>
 <p>自行利用 Github commits 提交記錄評分.</p>
 <h1>HW 1</h1>
@@ -35,10 +37,647 @@
 <p>上列 iframe 標註的 html 語法:</p>
 <pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">&lt;iframe width="600" height="400" src="https://nbviewer.org/urls/mde.tw/cp2024_hw/downloads/01_string_input_print.ipynb"&gt;&lt;/iframe&gt;</pre>
 <p>完成上述流程整理後, 請將 HW1 自評分數輸入 cp2024 自評表單中.</p>
-<h2>HW 1 Exam</h2>
+<h3>HW1_exam</h3><h3>W16_exam2</h3>
+<p><a href="https://mdecp2024.github.io/hw-41323228/content/Brython.html?src=https://gist.githubusercontent.com/41323228/d60eba5ea41e04aa3b7f521cfea8775a/raw/fd87c63dc7b70a09dc1ed3596de9d2bad8a85d62/w16">w16_exam2</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
+from browser import document as doc
+import math
+
+
+def draw_maze(angle_degrees):
+    # 創建畫布
+    canvas = html.CANVAS(width=1200, height=1200)
+    brython_div = doc["brython_div1"]
+    brython_div &lt;= canvas
+
+    # 取得繪圖上下文
+    ctx = canvas.getContext("2d")
+
+    # 設置參數
+    pixel_scale = 100
+    offset_x = 32 * 2
+    offset_y = 28 * 2
+    # 向右移動的偏移量
+    move_right_offset = 200
+    angle_radians = math.radians(angle_degrees)
+
+    # 定義迷宮線條
+    lines = [
+        ((0, 0), (2, 0)),
+        ((3, 0), (5, 0)),
+        ((5, 0), (5, 5)),
+        ((3, 5), (5, 5)),
+        ((4, 5), (4, 3)),
+        ((1, 3), (4, 3)),
+        ((3, 2), (3, 3)),
+        ((1, 1), (4, 1)),
+        ((4, 1), (4, 2)),
+        ((2, 1), (2, 2)),
+        ((2, 4), (3, 4)),
+        ((2, 4), (2, 5)),
+        ((1, 3), (1, 4)),
+        ((0, 2), (2, 2)),
+        ((0, 5), (2, 5)),
+        ((0, 0), (0, 5)),
+    ]
+
+    # 旋轉並繪製迷宮線條
+    ctx.strokeStyle = "blue"
+    ctx.lineWidth = 2
+    for line in lines:
+        start = line[0]
+        end = line[1]
+
+        # 旋轉起點座標
+        start_x_rotated = start[0] * pixel_scale * math.cos(angle_radians) - start[1] * pixel_scale * math.sin(
+            angle_radians)
+        start_y_rotated = start[0] * pixel_scale * math.sin(angle_radians) + start[1] * pixel_scale * math.cos(
+            angle_radians)
+
+        # 旋轉終點座標
+        end_x_rotated = end[0] * pixel_scale * math.cos(angle_radians) - end[1] * pixel_scale * math.sin(
+            angle_radians)
+        end_y_rotated = end[0] * pixel_scale * math.sin(angle_radians) + end[1] * pixel_scale * math.cos(
+            angle_radians)
+
+        ctx.beginPath()
+        ctx.moveTo(
+            offset_x + move_right_offset + start_x_rotated,
+            offset_y + start_y_rotated
+        )
+        ctx.lineTo(
+            offset_x + move_right_offset + end_x_rotated,
+            offset_y + end_y_rotated
+        )
+        ctx.stroke()
+
+    return ctx, offset_x + move_right_offset, offset_y
+
+
+def label_coordinate(ctx, offset_x, offset_y, text_angle_degrees):
+    text_angle_radians = math.radians(text_angle_degrees)
+    ctx.font = "18px Arial"
+    ctx.fillStyle = "red"
+    # 原始文字位置
+    original_x = offset_x + 10
+    original_y = offset_y - 15
+    # 旋轉後的文字位置
+    rotated_x = original_x * math.cos(text_angle_radians) - original_y * math.sin(text_angle_radians)
+    rotated_y = original_x * math.sin(text_angle_radians) + original_y * math.cos(text_angle_radians)
+    ctx.save()
+    ctx.translate(offset_x, offset_y)
+    ctx.rotate(text_angle_radians)
+    ctx.fillText("(32, 28)", 10, - 15)
+    ctx.restore()
+
+
+if __name__ == "__main__":
+    
+    maze_angle = 0
+    text_angle = 0
+    ctx, offset_x, offset_y = draw_maze(maze_angle)
+    label_coordinate(ctx, offset_x, offset_y, text_angle)</pre>
+<p><br/><br/>w16_exam3</p><h3>w16_exam3</h3>
+<p><a href="https://mdecp2024.github.io/hw-41323228/content/Brython.html?src=https://gist.githubusercontent.com/41323228/73ea0a888d082cd8a62848edf3cff575/raw/3c39d825d820fd541bebd3f5ec753256bb76f99c/w16">w16_exam3</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
+from browser import document as doc
+import math
+ 
+ 
+def draw_maze(angle_degrees):
+    # 創建畫布
+    canvas = html.CANVAS(width=1200, height=1200)
+    brython_div = doc["brython_div1"]
+    brython_div &lt;= canvas
+ 
+    # 取得繪圖上下文
+    ctx = canvas.getContext("2d")
+ 
+    # 設置參數
+    pixel_scale = 100
+    offset_x = 32 * 2
+    offset_y = 28 * 2
+    # 向右移動的偏移量
+    move_right_offset = 200
+    angle_radians = math.radians(angle_degrees)
+ 
+    # 定義迷宮線條
+    lines = [
+        ((0, 0), (2, 0)),
+        ((3, 0), (5, 0)),
+        ((5, 0), (5, 5)),
+        ((3, 5), (5, 5)),
+        ((4, 5), (4, 3)),
+        ((1, 3), (4, 3)),
+        ((3, 2), (3, 3)),
+        ((1, 1), (4, 1)),
+        ((4, 1), (4, 2)),
+        ((2, 1), (2, 2)),
+        ((2, 4), (3, 4)),
+        ((2, 4), (2, 5)),
+        ((1, 3), (1, 4)),
+        ((0, 2), (2, 2)),
+        ((0, 5), (2, 5)),
+        ((0, 0), (0, 5)),
+    ]
+ 
+    # 旋轉並繪製迷宮線條
+    ctx.strokeStyle = "blue"
+    ctx.lineWidth = 2
+    for line in lines:
+        start = line[0]
+        end = line[1]
+ 
+        # 旋轉起點座標
+        start_x_rotated = start[0] * pixel_scale * math.cos(angle_radians) - start[1] * pixel_scale * math.sin(
+            angle_radians)
+        start_y_rotated = start[0] * pixel_scale * math.sin(angle_radians) + start[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        # 旋轉終點座標
+        end_x_rotated = end[0] * pixel_scale * math.cos(angle_radians) - end[1] * pixel_scale * math.sin(
+            angle_radians)
+        end_y_rotated = end[0] * pixel_scale * math.sin(angle_radians) + end[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        ctx.beginPath()
+        ctx.moveTo(
+            offset_x + move_right_offset + start_x_rotated,
+            offset_y + start_y_rotated
+        )
+        ctx.lineTo(
+            offset_x + move_right_offset + end_x_rotated,
+            offset_y + end_y_rotated
+        )
+        ctx.stroke()
+ 
+    return ctx, offset_x + move_right_offset, offset_y, pixel_scale
+ 
+ 
+def find_path():
+    
+    path = [
+        ((2.5, 0), (2.5, 0.5)),
+        ((2.5, 0.5), (4.5, 0.5)),
+        ((4.5, 0.5), (4.5, 2.5)),
+        ((4.5, 2.5), (3.5, 2.5)),
+        ((3.5, 2.5), (3.5, 1.5)),
+        ((3.5, 1.5), (2.5, 1.5)),
+        ((2.5, 1.5), (2.5, 2.5)),
+        ((2.5, 2.5), (0.5, 2.5)),
+        ((0.5, 2.5), (0.5, 4.5)),
+        ((0.5, 4.5), (1.5, 4.5)),
+        ((1.5, 4.5), (1.5, 3.5)),
+        ((1.5, 3.5), (3.5, 3.5)),
+        ((3.5, 3.5), (3.5, 4.5)),
+        ((3.5, 4.5), (2.5, 4.5)),
+        ((2.5, 4.5), (2.5, 5))
+    ]
+    return path
+ 
+ 
+def draw_path(ctx, offset_x, offset_y, angle_degrees, path, pixel_scale):
+    angle_radians = math.radians(angle_degrees)
+    ctx.strokeStyle = "red"
+    ctx.lineWidth = 2
+    for line in path:
+        start = line[0]
+        end = line[1]
+ 
+        # 旋轉起點座標
+        start_x_rotated = start[0] * pixel_scale * math.cos(angle_radians) - start[1] * pixel_scale * math.sin(
+            angle_radians)
+        start_y_rotated = start[0] * pixel_scale * math.sin(angle_radians) + start[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        # 旋轉終點座標
+        end_x_rotated = end[0] * pixel_scale * math.cos(angle_radians) - end[1] * pixel_scale * math.sin(
+            angle_radians)
+        end_y_rotated = end[0] * pixel_scale * math.sin(angle_radians) + end[1] * pixel_scale * math.cos(
+            angle_radians)
+ 
+        ctx.beginPath()
+        ctx.moveTo(
+            offset_x + start_x_rotated,
+            offset_y + start_y_rotated
+        )
+        ctx.lineTo(
+            offset_x + end_x_rotated,
+            offset_y + end_y_rotated
+        )
+        ctx.stroke()
+ 
+ 
+def label_coordinate(ctx, offset_x, offset_y, text_angle_degrees):
+    text_angle_radians = math.radians(text_angle_degrees)
+    ctx.font = "18px Arial"
+    ctx.fillStyle = "red"
+    # 原始文字位置
+    original_x = offset_x + 10
+    original_y = offset_y - 15
+    # 旋轉後的文字位置
+    rotated_x = original_x * math.cos(text_angle_radians) - original_y * math.sin(text_angle_radians)
+    rotated_y = original_x * math.sin(text_angle_radians) + original_y * math.cos(text_angle_radians)
+    ctx.save()
+    ctx.translate(offset_x, offset_y)
+    ctx.rotate(text_angle_radians)
+    ctx.fillText("(32, 28)", 10, - 15)
+    ctx.restore()
+ 
+ 
+if __name__ == "__main__":
+    # 調整迷宮角度，這裡設定為30度，可依需求修改
+    maze_angle = 0
+    # 文字角度
+    text_angle = 0
+    ctx, offset_x, offset_y, pixel_scale = draw_maze(maze_angle)
+    path = find_path()
+    draw_path(ctx, offset_x, offset_y, maze_angle, path, pixel_scale)
+    label_coordinate(ctx, offset_x, offset_y, text_angle)</pre>
+<p><img alt="" height="689" src="/images/螢幕擷取畫面 2025-01-07 021658.png" width="663"/></p><h3>w16_exam1</h3>
+<p><a href="https://mdecp2024.github.io/hw-41323228/content/Brython.html?src=https://gist.githubusercontent.com/41323228/7d1a93bd210d918a79a2393d401f2807/raw/88755376b48c62071aab7abd51b63679d07119bf/w16">w16_exam1</a></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import document, html
+import math
+  
+# 初始化 HTML，確保 canvas 元素存在
+def setup_canvas():
+    if not document.querySelector("#my_canvas"):
+        canvas = html.CANVAS(id="my_canvas", width=800, height=600)
+        document &lt;= canvas
+  
+setup_canvas()
+ 
+# Set up canvas
+canvas = document["my_canvas"]
+ctx = canvas.getContext("2d")
+ 
+# Set origin (32, 28)
+origin_x, origin_y = 32, 28    #自己學號 修改
+ 
+# Draw X-axis
+ctx.beginPath()
+ctx.moveTo(origin_x, origin_y)
+ctx.lineTo(500, origin_y)
+ctx.strokeStyle = "black"
+ctx.lineWidth = 2
+ctx.stroke()
+ 
+# Draw Y-axis
+ctx.beginPath()
+ctx.moveTo(origin_x, origin_y)
+ctx.lineTo(origin_x, 300)
+ctx.stroke()
+ 
+# Label origin
+ctx.font = "12px Arial"
+ctx.fillStyle = "black"
+ctx.fillText("(32, 28)", origin_x + 5, origin_y - 5)
+ 
+# Draw shapes
+# Adjusted placement to fix alignment issue
+ 
+# Hexagon (Orange)
+hex_x, hex_y = 100, 100
+ctx.beginPath()
+for i in range(6):
+    angle = i * (2 * math.pi / 6)
+    x = hex_x + 30 * math.cos(angle)
+    y = hex_y + 30 * math.sin(angle)
+    if i == 0:
+        ctx.moveTo(x, y)
+    else:
+        ctx.lineTo(x, y)
+ctx.closePath()
+ctx.fillStyle = "orange"
+ctx.fill()
+ 
+# Diamond (Teal)
+ctx.beginPath()
+ctx.moveTo(160, 70)
+ctx.lineTo(180, 100)
+ctx.lineTo(160, 130)
+ctx.lineTo(140, 100)
+ctx.closePath()
+ctx.fillStyle = "teal"
+ctx.fill()
+ 
+# Triangle (Teal)
+ctx.beginPath()
+ctx.moveTo(165, 130)
+ctx.lineTo(205, 130)
+ctx.lineTo(185, 100)
+ctx.closePath()
+ctx.fillStyle = "blue"
+ctx.fill()
+ 
+# Circle (Pink)
+ctx.beginPath()
+ctx.arc(230, 100, 30, 0, 2 * math.pi)
+ctx.fillStyle = "pink"
+ctx.fill()
+ 
+# Square (Yellow)
+ctx.beginPath()
+ctx.rect(265, 75, 50, 50)
+ctx.fillStyle = "yellow"
+ctx.fill()
+ 
+# Rectangle (Blue)
+ctx.beginPath()
+ctx.rect(320, 90, 60, 20)
+ctx.fillStyle = "Blue"
+ctx.fill()</pre>
+<p><img alt="" height="375" src="/images/螢幕擷取畫面 2025-01-07 021313.png" width="603"/></p><h3>w15</h3>
+<p>第一題：1~100</p>
+<p>　　我是使用while迴圈下去寫，邏輯大概是如果i小於100就持續執行1+2=3 3+4=7一直持續到i=100。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">sum_result = 0 #建立變數sum_result
+i = 1 #指定i等於1
+while i &lt;= 100:     #使用while迴圈把i加到等於100
+    sum_result += i   
+    i += 1
+print(sum_result)</pre>
+<p>第二題：指定開頭計算</p>
+<p>　　我一樣使用while迴圈下去寫，這次可以通過程式調整起始值所以加入了add_to函式庫進行調用。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">#運算程式
+def addto(start, end):   #定義函數addto
+    sum_result = 0       #設定數值sum_result=0
+    i = start            #設定i=start
+    while i &lt;= end:      #設結束之值為end
+        sum_result += i  
+        i += 1
+    return sum_result    #終止函數運行並返回數值至result
+     
+#調用程式
+result = addto(1, 100)   #設定起始值
+print(result)            #列印result</pre>
+<p>第三題：只加偶數</p>
+<p>　　這次可以通過程式調整起始值並讓程式判斷使程式只加偶數數字，邏輯是除以2的餘=0再加入如果不等於0就判定為單數不加入。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">#運算程式
+def add_only_even(start, end): #定義函數add_only_eve
+    result = 0                 #在函數內部定義一個區域變數為result
+    num = start                #初始化一個變數為num　並賦值為start
+    while num &lt;= end:          #設定一個while迴圈 循環條件為num &lt;= end只要當前的num沒有超過end就會持續運行
+        if num % 2 == 0:       #這個if判斷式是判斷是否為偶數 餘數是否=0
+            result += num      #此語句為result=result+num
+        num += 1               #每次循環時都將num+1
+    return result              #迴圈結束後使用return返回至函數
+print(add_only_even(1, 100))   #列印函數結果</pre>
+<p>第四題：除了8都加入</p>
+<p>　　程式邏輯為將透過str指令將整束轉為字符串，再進行判斷裡面是否含有若無則加入倒數列其中</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">def add_avoid_8(start, end):     #定義函數add_only_eve_8
+    result = 0                   #定義函數add_only_eve
+    num = start                  #初始化一個變數為num　並賦值為start
+    while num &lt;= end:            #設定一個while迴圈 循環條件為num &lt;= end只要當前的num沒有超過end就會持續運行
+        num_str = str(num)       #將當前的整數num轉換成字符串的形式透過str語句
+        if '8' not in num_str:   #這是一個if語句他是判斷num_str字符串中是否含8
+            result += num        #此語句為result=result+num
+        num += 1                 #每次循環時都將num+1
+    return result                #迴圈結束後使用return返回至函數     
+print(add_avoid_8(1, 100))       #列印函數結果</pre>
+<p></p><h3>w14_ex</h3>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import document, html
+import math
+ 
+# 初始化 HTML，確保 canvas 元素存在
+def setup_canvas():
+    if not document.querySelector("#my_canvas"):
+        canvas = html.CANVAS(id="my_canvas", width=800, height=600)
+        document &lt;= canvas
+ 
+setup_canvas()
+ 
+# 判斷點 (x, y) 是否在圓內，圓的圓心為 (cx, cy)，半徑為 r
+def is_inside_circle(x, y, cx, cy, r):
+    distance = math.sqrt((x - cx) ** 2 + (y - cy) ** 2)
+    return distance &lt;= r
+ 
+# 繪製圓
+def draw_circle(ctx, cx, cy, r):
+    ctx.beginPath()
+    ctx.arc(cx, cy, r, 0, 2 * math.pi)
+    ctx.stroke()
+ 
+# 獲取 canvas 上下文
+canvas = document["my_canvas"]
+ctx = canvas.getContext("2d")
+ 
+# 用戶輸入三個圓的圓心座標和半徑
+circle1_center_x = float(input("輸入第一個圓的圓心 x 座標: "))
+circle1_center_y = float(input("輸入第一個圓的圓心 y 座標: "))
+circle1_radius = float(input("輸入第一個圓的半徑: "))
+ 
+circle2_center_x = float(input("輸入第二個圓的圓心 x 座標: "))
+circle2_center_y = float(input("輸入第二個圓的圓心 y 座標: "))
+circle2_radius = float(input("輸入第二個圓的半徑: "))
+ 
+circle3_center_x = float(input("輸入第三個圓的圓心 x 座標: "))
+circle3_center_y = float(input("輸入第三個圓的圓心 y 座標: "))
+circle3_radius = float(input("輸入第三個圓的半徑: "))
+ 
+# 繪製三個圓
+draw_circle(ctx, circle1_center_x, circle1_center_y, circle1_radius)
+draw_circle(ctx, circle2_center_x, circle2_center_y, circle2_radius)
+draw_circle(ctx, circle3_center_x, circle3_center_y, circle3_radius)
+ 
+# 遍歷一定範圍的點來確定所屬區域並著色
+width = canvas.width
+height = canvas.height
+for x in range(0, width, 5):
+    for y in range(0, height, 5):
+        in_circle1 = is_inside_circle(x, y, circle1_center_x, circle1_center_y, circle1_radius)
+        in_circle2 = is_inside_circle(x, y, circle2_center_x, circle2_center_y, circle2_radius)
+        in_circle3 = is_inside_circle(x, y, circle3_center_x, circle3_center_y, circle3_radius)
+ 
+        if in_circle1 and in_circle2 and in_circle3:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "purple"  # 三個圓重疊區域設為紫色
+            ctx.fill()
+        elif in_circle1 and in_circle2:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "blue"  # 僅在圓1、圓2重疊（不含圓3重疊部分）區域設為藍色
+            ctx.fill()
+        elif in_circle1 and in_circle3:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "green"  # 僅在圓1、圓3重疊（不含圓2重疊部分）區域設為綠色
+            ctx.fill()
+        elif in_circle2 and in_circle3:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "yellow"  # 僅在圓2、圓3重疊（不含圓1重疊部分）區域設為黃色
+            ctx.fill()
+        elif in_circle1:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "cyan"  # 僅在圓1內（不含和其他圓重疊部分）區域設為青色
+            ctx.fill()
+        elif in_circle2:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "magenta"  # 僅在圓2內（不含和其他圓重疊部分）區域設為品紅
+            ctx.fill()
+        elif in_circle3:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "orange"  # 僅在圓3內（不含和其他圓重疊部分）區域設為橙色
+            ctx.fill()
+        else:
+            ctx.beginPath()
+            ctx.arc(x, y, 2, 0, 2 * math.pi)
+            ctx.fillStyle = "gray"  # 三個圓外的區域設為灰色
+            ctx.fill()</pre>
+<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">#運算程式
+def addto(start, end):   #定義函數addto
+    sum_result = 0       #設定數值sum_result=0
+    i = start            #設定i=start
+    while i &lt;= end:      #設結束之值為end
+        sum_result += i  
+        i += 1
+    return sum_result    #終止函數運行並返回數值至result
+     
+#調用程式
+result = addto(1, 100)   #設定起始值
+print(result)            #列印result</pre>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">sum_result = 0 #建立變數sum_result
+i = 1 #指定i等於1
+while i &lt;= 100:     #使用while迴圈把i加到等於100
+    sum_result += i   
+    i += 1
+print(sum_result)
+</pre>
+<p></p><h2>w13</h2>
 <p>每六人為一組進行協同程式練習</p>
 <p>透過 Jupyterlab 協同網頁, 輪流指定各組編寫 Topic 1 相關的程式練習, 以及網頁內容 (localhost 與 Codespaces 環境)編輯.</p>
-<h1>HW 2</h1>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">from browser import html, document as doc, window
+ 
+# Create canvas element
+canvas = html.CANVAS(width=500, height=500)  # Increase canvas size to ensure circles are fully visible
+brython_div = doc["brython_div1"]
+brython_div &lt;= canvas
+ 
+# Get the drawing context of the canvas
+ctx = canvas.getContext("2d")
+ 
+# Draw the first empty square at (0, 0)
+width = 10
+height = 10
+gs = 20  # Grid size (for spacing)
+ 
+ctx.lineWidth = 2
+ctx.strokeStyle = 'red'  # Color for the first square
+ctx.beginPath()
+ctx.rect(50, 50, width * gs, height * gs)  # Draw a hollow square with offset (50, 50)
+ctx.stroke()
+ 
+# Draw the second empty square at (100, 100)
+offset_x = 150  # Change the x-coordinate to give more space
+offset_y = 150  # Change the y-coordinate to give more space
+width2 = 10
+height2 = 10
+ 
+ctx.lineWidth = 2
+ctx.strokeStyle = 'red'  # Color for the second square
+ctx.beginPath()
+ctx.rect(offset_x, offset_y, width2 * gs, height2 * gs)  # Draw another hollow square
+ctx.stroke()
+ 
+# Function to draw a circle around a square
+def draw_outer_circle(x, y, width, height):
+    # Calculate the radius of the outer circle (half of the diagonal of the square)
+    radius = window.Math.sqrt(width ** 2 + height ** 2) / 2
+    # Calculate the center of the square
+    center_x = x + width * gs / 2
+    center_y = y + height * gs / 2
+    # Draw the outer circle
+    ctx.beginPath()
+    ctx.arc(center_x, center_y, radius * gs, 0, 2 * window.Math.PI)
+    ctx.strokeStyle = 'black'  # Color for the outer circle
+    ctx.lineWidth = 2
+    ctx.stroke()
+ 
+# Draw outer circles around both squares
+draw_outer_circle(50, 50, width, height)  # For the first square
+draw_outer_circle(offset_x, offset_y, width2, height2)  # For the second square
+ 
+# Create the context menu
+context_menu = html.DIV(style={"position": "absolute", "display": "none", "background-color": "#fff", "border": "1px solid #ccc", "padding": "5px"})
+context_menu &lt;= html.BUTTON("Option 1: Clear Canvas")
+context_menu &lt;= html.BUTTON("Option 2: Draw Circle")
+brython_div &lt;= context_menu
+ 
+# Function to show context menu
+def show_context_menu(event):
+    event.preventDefault()  # Prevent the default right-click menu
+    context_menu.style.display = "block"  # Show custom context menu
+    context_menu.style.left = f"{event.pageX}px"  # Set the position of the menu
+    context_menu.style.top = f"{event.pageY}px"
+ 
+# Hide the context menu when clicking elsewhere
+def hide_context_menu(event):
+    context_menu.style.display = "none"
+ 
+# Attach right-click (contextmenu) event to the canvas
+canvas.bind("contextmenu", show_context_menu)
+ 
+# Attach click event to document to hide the menu when clicking elsewhere
+document.bind("click", hide_context_menu)
+ 
+# Function for the menu options
+def clear_canvas(event):
+    ctx.clearRect(0, 0, canvas.width, canvas.height)  # Clear the canvas
+    context_menu.style.display = "none"  # Hide the context menu after action
+ 
+def draw_circle(event):
+    ctx.beginPath()
+    ctx.arc(200, 200, 50, 0, 2 * window.Math.PI)  # Draw a circle at the center
+    ctx.strokeStyle = 'green'
+    ctx.stroke()
+    context_menu.style.display = "none"  # Hide the context menu after action
+ 
+# Attach actions to context menu buttons
+context_menu.children[0].bind("click", clear_canvas)  # First button: Clear canvas
+context_menu.children[1].bind("click", draw_circle)  # Second button: Draw a circle</pre>
+<p><br/><br/>hw_13</p>
+<p>1.</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
+from browser import document as doc
+
+# 利用 html 建立 canvas 超文件物件
+canvas = html.CANVAS(width = 400,height = 400)
+brython_div = doc["brython_div1"]
+brython_div &lt;= canvas
+
+# 每一格的 pixel 數
+gs = 200
+
+# gs*tc = canvas width and height
+
+ctx = canvas.getContext("2d")
+
+width=1
+height=1
+
+for i in range(width): 
+    for j in range(height):
+     #dRect(i*gs, j*gs, gs, gs, 1, "lightgrey")
+     ctx.lineWidth=1
+     ctx.strokeStyle='red'
+     ctx.beginPath();
+     ctx.rect(i*gs,j*gs,gs,gs)
+     ctx.stroke();
+     
+for i in range(width): 
+    for j in range(height):
+     #dRect(i*gs, j*gs, gs, gs, 1, "lightgrey")
+     ctx.lineWidth=1
+     ctx.strokeStyle='red'
+     ctx.beginPath();
+     ctx.rect(i*gs+50,j*gs+50,gs,gs)
+     ctx.stroke();</pre>
+<p></p><h1>HW 2</h1>
 <h4>主題: Python 的數列、判斷式與重複迴圈 (20%)<span style="background-color: #ffff99;"><br/></span></h4>
 <p style="padding-left: 30px;">Python 課程教材: <a href="https://www.learnpythonwithjupyter.com/">https://www.learnpythonwithjupyter.com/</a> - PART 2 and Part 3</p>
 <hr/>
@@ -64,7 +703,8 @@
 <p style="padding-left: 30px;">範例:</p>
 <p style="padding-left: 60px;"><a href="/downloads/cd2023_pj3ag4_zmq_football_4.7.7z">cd2023_pj3ag4_zmq_football_4.7.7z</a></p>
 <p style="padding-left: 60px;"><a href="https://localhost:9446/downloads/cd2024_2b_g6_steel_ball_platform_nxopen_copsim.7z">cd2024_2b_g6_steel_ball_platform_nxopen_copsim.7z</a></p>
-<p>完成上述流程整理後, 請將 HW4 自評分數輸入 cp2024 自評表單中.</p><h2>HW 4 Exam</h2>
+<p>完成上述流程整理後, 請將 HW4 自評分數輸入 cp2024 自評表單中.</p>
+<h2>HW 4 Exam</h2>
 <p>每六人為一組進行協同程式練習</p>
 <p>透過 Jupyterlab 協同網頁, 輪流指定各組編寫 HW 4 相關的程式練習, 以及網頁內容 (localhost 與 Codespaces 環境)編輯.</p>
 <h1>Final Report</h1>
