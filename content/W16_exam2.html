@@ -130,7 +130,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li><a href='Attendance.html'>Attendance</a><li class='has-children'><a href='HW 1.html'>HW 1</a><ul class='dropdown'><li class='has-children'><a href='W16_exam2.html'>W16_exam2</a><ul class='dropdown'><li><a href='w16_exam3.html'>w16_exam3</a><li><a href='w16_exam1.html'>w16_exam1</a><li><a href='w15.html'>w15</a><li><a href='w14_ex.html'>w14_ex</a></li></ul><li><a href='w13.html'>w13</a></li></ul><li class='has-children'><a href='HW 2.html'>HW 2</a><ul class='dropdown'><li><a href='HW 2 Exam.html'>HW 2 Exam</a></li></ul><li class='has-children'><a href='HW 3.html'>HW 3</a><ul class='dropdown'><li><a href='HW 3 Exam.html'>HW 3 Exam</a></li></ul><li class='has-children'><a href='HW 4.html'>HW 4</a><ul class='dropdown'><li><a href='HW 4 Exam.html'>HW 4 Exam</a></li></ul><li><a href='Final Report.html'>Final Report</a></li>
+                     <li><a href='About.html'>About</a><li><a href='Attendance.html'>Attendance</a><li class='has-children'><a href='HW 1.html'>HW 1</a><ul class='dropdown'><li class='has-children'><a href='HW1_exam.html'>HW1_exam</a><ul class='dropdown'><li><a href='W16_exam2.html'>W16_exam2</a><li><a href='w16_exam3.html'>w16_exam3</a><li><a href='w16_exam1.html'>w16_exam1</a><li><a href='w15.html'>w15</a><li><a href='w14_ex.html'>w14_ex</a></li></ul><li><a href='w13.html'>w13</a></li></ul><li class='has-children'><a href='HW 2.html'>HW 2</a><ul class='dropdown'><li><a href='HW 2 Exam.html'>HW 2 Exam</a></li></ul><li class='has-children'><a href='HW 3.html'>HW 3</a><ul class='dropdown'><li><a href='HW 3 Exam.html'>HW 3 Exam</a></li></ul><li class='has-children'><a href='HW 4.html'>HW 4</a><ul class='dropdown'><li><a href='HW 4 Exam.html'>HW 4 Exam</a></li></ul><li><a href='Final Report.html'>Final Report</a></li>
                       </ul>
                 </nav>
               </div>
@@ -141,21 +141,22 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">HW 1 << <a href='HW 1.html'>Previous</a> <a href='w16_exam3.html'>Next</a> >> w16_exam3<br /><h1>W16_exam2</h1>
+    <div id="tipue_search_content">HW1_exam << <a href='HW1_exam.html'>Previous</a> <a href='w16_exam3.html'>Next</a> >> w16_exam3<br /><h1>W16_exam2</h1>
+<p><a href="https://mdecp2024.github.io/hw-41323228/content/Brython.html?src=https://gist.githubusercontent.com/41323228/d60eba5ea41e04aa3b7f521cfea8775a/raw/fd87c63dc7b70a09dc1ed3596de9d2bad8a85d62/w16">w16_exam2</a></p>
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from browser import html
 from browser import document as doc
 import math
- 
- 
+
+
 def draw_maze(angle_degrees):
     # 創建畫布
     canvas = html.CANVAS(width=1200, height=1200)
     brython_div = doc["brython_div1"]
     brython_div &lt;= canvas
- 
+
     # 取得繪圖上下文
     ctx = canvas.getContext("2d")
- 
+
     # 設置參數
     pixel_scale = 100
     offset_x = 32 * 2
@@ -163,7 +164,7 @@ def draw_maze(angle_degrees):
     # 向右移動的偏移量
     move_right_offset = 200
     angle_radians = math.radians(angle_degrees)
- 
+
     # 定義迷宮線條
     lines = [
         ((0, 0), (2, 0)),
@@ -183,26 +184,26 @@ def draw_maze(angle_degrees):
         ((0, 5), (2, 5)),
         ((0, 0), (0, 5)),
     ]
- 
+
     # 旋轉並繪製迷宮線條
     ctx.strokeStyle = "blue"
     ctx.lineWidth = 2
     for line in lines:
         start = line[0]
         end = line[1]
- 
+
         # 旋轉起點座標
         start_x_rotated = start[0] * pixel_scale * math.cos(angle_radians) - start[1] * pixel_scale * math.sin(
             angle_radians)
         start_y_rotated = start[0] * pixel_scale * math.sin(angle_radians) + start[1] * pixel_scale * math.cos(
             angle_radians)
- 
+
         # 旋轉終點座標
         end_x_rotated = end[0] * pixel_scale * math.cos(angle_radians) - end[1] * pixel_scale * math.sin(
             angle_radians)
         end_y_rotated = end[0] * pixel_scale * math.sin(angle_radians) + end[1] * pixel_scale * math.cos(
             angle_radians)
- 
+
         ctx.beginPath()
         ctx.moveTo(
             offset_x + move_right_offset + start_x_rotated,
@@ -213,64 +214,10 @@ def draw_maze(angle_degrees):
             offset_y + end_y_rotated
         )
         ctx.stroke()
- 
-    return ctx, offset_x + move_right_offset, offset_y, pixel_scale
- 
- 
-def find_path():
-    
-    path = [
-        ((2.5, 0), (2.5, 0.5)),
-        ((2.5, 0.5), (4.5, 0.5)),
-        ((4.5, 0.5), (4.5, 2.5)),
-        ((4.5, 2.5), (3.5, 2.5)),
-        ((3.5, 2.5), (3.5, 1.5)),
-        ((3.5, 1.5), (2.5, 1.5)),
-        ((2.5, 1.5), (2.5, 2.5)),
-        ((2.5, 2.5), (0.5, 2.5)),
-        ((0.5, 2.5), (0.5, 4.5)),
-        ((0.5, 4.5), (1.5, 4.5)),
-        ((1.5, 4.5), (1.5, 3.5)),
-        ((1.5, 3.5), (3.5, 3.5)),
-        ((3.5, 3.5), (3.5, 4.5)),
-        ((3.5, 4.5), (2.5, 4.5)),
-        ((2.5, 4.5), (2.5, 5))
-    ]
-    return path
- 
- 
-def draw_path(ctx, offset_x, offset_y, angle_degrees, path, pixel_scale):
-    angle_radians = math.radians(angle_degrees)
-    ctx.strokeStyle = "red"
-    ctx.lineWidth = 2
-    for line in path:
-        start = line[0]
-        end = line[1]
- 
-        # 旋轉起點座標
-        start_x_rotated = start[0] * pixel_scale * math.cos(angle_radians) - start[1] * pixel_scale * math.sin(
-            angle_radians)
-        start_y_rotated = start[0] * pixel_scale * math.sin(angle_radians) + start[1] * pixel_scale * math.cos(
-            angle_radians)
- 
-        # 旋轉終點座標
-        end_x_rotated = end[0] * pixel_scale * math.cos(angle_radians) - end[1] * pixel_scale * math.sin(
-            angle_radians)
-        end_y_rotated = end[0] * pixel_scale * math.sin(angle_radians) + end[1] * pixel_scale * math.cos(
-            angle_radians)
- 
-        ctx.beginPath()
-        ctx.moveTo(
-            offset_x + start_x_rotated,
-            offset_y + start_y_rotated
-        )
-        ctx.lineTo(
-            offset_x + end_x_rotated,
-            offset_y + end_y_rotated
-        )
-        ctx.stroke()
- 
- 
+
+    return ctx, offset_x + move_right_offset, offset_y
+
+
 def label_coordinate(ctx, offset_x, offset_y, text_angle_degrees):
     text_angle_radians = math.radians(text_angle_degrees)
     ctx.font = "18px Arial"
@@ -286,18 +233,15 @@ def label_coordinate(ctx, offset_x, offset_y, text_angle_degrees):
     ctx.rotate(text_angle_radians)
     ctx.fillText("(32, 28)", 10, - 15)
     ctx.restore()
- 
- 
+
+
 if __name__ == "__main__":
-    # 調整迷宮角度，這裡設定為30度，可依需求修改
+    
     maze_angle = 0
-    # 文字角度
     text_angle = 0
-    ctx, offset_x, offset_y, pixel_scale = draw_maze(maze_angle)
-    path = find_path()
-    draw_path(ctx, offset_x, offset_y, maze_angle, path, pixel_scale)
+    ctx, offset_x, offset_y = draw_maze(maze_angle)
     label_coordinate(ctx, offset_x, offset_y, text_angle)</pre>
-<p><br/><br/>w16_exam3</p><br />HW 1 << <a href='HW 1.html'>Previous</a> <a href='w16_exam3.html'>Next</a> >> w16_exam3</div>
+<p><br/><br/>w16_exam3</p><br />HW1_exam << <a href='HW1_exam.html'>Previous</a> <a href='w16_exam3.html'>Next</a> >> w16_exam3</div>
         
     <!-- footer -->
       <div class="container">
